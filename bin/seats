@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+require "seats"
+
+ids = Seats::LoginCtl.get_session_ids
+sessions = Seats::LoginCtl.get_session ids, Seats::LoginCtl::PARAMETERS
+
+sessions.group_by { |session|
+  session.remote ? :remote : :local
+}.each { |(key, sessions)|
+  puts "#{key.to_s.capitalize}:"
+
+  puts sessions.map { |session|
+    str = session.name
+
+    str = "#{str} (#{session.tty})" unless session.tty.nil?
+
+    if session.id == Seats::LoginCtl.CURRENT_SESSION_ID
+      # the current user should always be active, so we can mask that trait
+      str = "* #{str}"
+    elsif session.active && !session.idlehint && !session.remote
+      # they are only active if it says they are and they aren't idle
+      # an active, but idle user is sitting at the login screen or screensaver
+      # don't add the marker for remote users as all of them would be
+      str = "+ #{str}"
+    else
+      str = "  #{str}"
+    end
+
+    str
+  }.join($/)
+
+  puts
+}
