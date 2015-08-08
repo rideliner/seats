@@ -3,7 +3,7 @@ require 'seats/session'
 
 module Seats
   module LoginCtl
-    PARAMETERS = %w[Id Name Remote Active IdleHint Class TTY]
+    PARAMETERS = %w[Id Name Remote Active IdleHint Class TTY RemoteHost]
 
     module_function
 

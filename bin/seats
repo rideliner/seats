@@ -14,6 +14,7 @@ sessions.group_by { |session|
     str = session.name
 
     str = "#{str} (#{session.tty})" unless session.tty.nil?
+    str = "#{str} [#{session.remotehost}]" if session.remote && !session.remotehost.nil?
 
     if session.id == Seats::LoginCtl.CURRENT_SESSION_ID
       # the current user should always be active, so we can mask that trait
