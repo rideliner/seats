@@ -28,7 +28,7 @@ module Seats
       else
         sessions = command(*params, 'show-session', *ids).split($/ * 2)
 
-        if ids.size == 1
+        if ids.size == 1 && !_ids.is_a?(Array)
           if sessions.empty?
             nil
           else

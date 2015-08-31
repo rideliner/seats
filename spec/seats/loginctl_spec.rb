@@ -47,6 +47,10 @@ describe Seats::LoginCtl do
     it 'accepts a single id' do
       session = Seats::LoginCtl.get_session Seats::LoginCtl.CURRENT_SESSION_ID
       expect(session).to be_kind_of(Seats::Session)
+
+      session = Seats::LoginCtl.get_session [ Seats::LoginCtl.CURRENT_SESSION_ID ]
+      expect(session).to be_kind_of(Array)
+      expect(session.length).to eq(1)
     end
 
     it 'accepts multiple ids' do
